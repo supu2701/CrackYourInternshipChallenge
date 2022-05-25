@@ -1,0 +1,40 @@
+class Solution {
+public:
+    
+    void bfs(vector<vector<char>> &grid, int row, int col, int i, int j){
+        //boundary case
+        if(i<0 || i>=row || j<0 || j>=col || grid[i][j]!='1') return;
+        //This case I will simply backtract
+        
+        //make this land as visited
+        grid[i][j]='2';
+        
+        bfs(grid, row,col,i+1,j);
+        bfs(grid, row,col,i-1,j);
+        bfs(grid, row,col,i,j+1);
+        bfs(grid, row,col,i,j-1);
+    }
+    //Solving using simple BFS aopproach
+    int numIslands(vector<vector<char>>& grid) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        
+        int row= grid.size();
+        int col= grid[0].size();
+        
+        int count=0;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]=='1'){
+                    bfs(grid,row,col,i,j);
+                    count++;
+                }
+            }
+        }
+        
+        return count;
+        
+        
+        
+    }
+};
