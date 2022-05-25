@@ -1,0 +1,44 @@
+class Solution {
+public:
+    
+    int solve(vector<int> &coins, int amount, int n){
+        //edge cases
+        if(amount==0) return 0;
+        if(n==0) return INT_MAX-1;
+        
+        if(t[n][amount]!=-1) return t[n][amount];
+        
+        if(coins[n-1]<=amount){
+            int a= solve(coins,amount-coins[n-1],n);
+            int b= solve(coins,amount,n-1);
+            
+            if(a==-1 && b==-1){
+                t[n][amount]=-1;
+            }
+            else if(a==-1){
+                t[n][amount]=b;
+            }
+            else if(b==-1){
+                t[n][amount]=a+1;
+            }
+            else{
+                t[n][amount]=min(b,a+1);
+            }
+        }
+        else{
+            t[n][amount]=solve(coins,amount,n-1);
+        }
+        
+        return t[n][amount];
+    }
+    int t[13][10001];
+    int coinChange(vector<int>& coins, int amount) {
+        memset(t,-1,sizeof t);
+        int n= coins.size();
+        int ans= solve(coins, amount,n);
+        if(ans==INT_MAX-1) return -1;
+        return ans;
+        
+        
+    }
+};
